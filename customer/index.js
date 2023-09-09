@@ -19,7 +19,11 @@ const customers = [{
 
 let idCounter = 6;
 
-const customerResponder = new cote.Responder({name : 'customer-responder', key : 'customer_update'});
+const customerResponder = new cote.Responder({name : 'customer-responder', key : 'customer'});
+
+customerResponder.on('list', req => {
+    return Promise.resolve(customers);
+})
 
 customerResponder.on('update', req => {
     const customer = {

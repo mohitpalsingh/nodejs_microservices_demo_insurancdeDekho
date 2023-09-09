@@ -7,19 +7,25 @@ const app = express();
 
 app.use(bodyParser.json());
 
-const salesFetchRequester = new cote.Requester({name : 'sales-fetch-requester', key : 'sales_fetch'});
-const salesUpdateRequester = new cote.Requester({name: 'sales-update-requester', key : 'sales_update'})
-const customerRequester = new cote.Requester({name : 'customer-requester', key : 'customer_update'});
-const recieptRequester = new cote.Requester({name: 'reciept-requester', key : 'reciept_generate_and_fetch'});
+
+const salesRequester = new cote.Requester({name: 'sales-requester', key : 'sales'})
+const customerRequester = new cote.Requester({name : 'customer-requester', key : 'customer'});
+const recieptRequester = new cote.Requester({name: 'reciept-requester', key : 'reciept'});
 
 app.get('/insurances', async (req, res) => {
-    const insurances = await salesFetchRequester.send({type : 'list'});
-    console.log("get insurances");
+    const insurances = await salesRequester.send({type : 'list'});
+    console.log("listed insurances");
     res.send(insurances);
 })
 
+app.get('/customers', async (req, res) => {
+    const customers = await customerRequester.send({type : 'list'});
+    console.log("listed customers");
+    res.send(customers);
+})
+
 app.post('/addInsurance', async (req, res) => {
-    const insurance = await salesUpdateRequester.send({type : 'update', info : req.body});
+    const insurance = await salesRequester.send({type : 'update', info : req.body});
     console.log("added insurance");
 
     const customer = await customerRequester.send({type : 'update', info : req.body});

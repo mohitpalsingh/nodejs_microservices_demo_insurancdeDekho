@@ -29,13 +29,11 @@ const insurances = [{
 
 let idCounter = 6;
 
-const salesFetchResponder = new cote.Responder({name : 'sales-fetch-responder', key : 'sales_fetch'});
+const salesResponder = new cote.Responder({name : 'sales-responder', key : 'sales'});
 
-salesFetchResponder.on('list', req => Promise.resolve(insurances));
+salesResponder.on('list', req => Promise.resolve(insurances));
 
-const salesUpdateResponder = new cote.Responder({name : 'sales-update-responder', key : 'sales_update'});
-
-salesUpdateResponder.on('update', req => {
+salesResponder.on('update', req => {
     const insurance = {
         id : idCounter++,
         ...req.info    
