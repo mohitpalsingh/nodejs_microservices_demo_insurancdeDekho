@@ -1,41 +1,30 @@
+const connectToDatabase = require("./db/conn.js");
 const cote = require('cote');
 
-const receipts = [{
-    id : 1,
-    receipt : "receipt for Pratham"
-}, {
-    id : 2,
-    receipt : "receipt for Abhay"
-}, {
-    id : 3,
-    receipt : "receipt for Vinay"
-}, {
-    id : 4,
-    receipt : "receipt for Avijit"
-}, {
-    id : 5,
-    receipt : "receipt for Gagan"
-}];
-
-let idCounter = 6;
+let db;
+async function connectDB() {
+    db = await connectToDatabase();
+}
+connectDB();
 
 const receiptResponder = new cote.Responder({name : 'receipt-responder', key : 'receipt'});
-
 const financePublisher = new cote.Publisher({name : 'finance-publisher', key : 'finance'});
 
-receiptResponder.on('list', req => {
-    return Promise.resolve(receipts);
-})
+receiptResponder.on('list', async (req) => {
+    const collection = await db.collection("receipts");
+    let results = await collection.find().toArray();
+    return results;
+});
 
-receiptResponder.on('generate', req => {
+receiptResponder.on('generate', async (req) => {
     const receiptMsg = "receipt for " + req.info.customer;
     const receipt = {
-        id : idCounter++,
         receipt : receiptMsg
     }
-    receipts.push(receipt);
+    const collection = await db.collection("receipts");
+    let result = await collection.insertOne(receipt);
 
     financePublisher.publish('customer_added', req);
 
-    return Promise.resolve(receipt);
-})
+    return result;
+});

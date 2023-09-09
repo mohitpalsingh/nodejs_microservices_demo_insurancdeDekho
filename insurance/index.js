@@ -1,43 +1,26 @@
+const connectToDatabase = require("./db/conn.js");
 const cote = require('cote');
 
-const insurances = [{
-    id : 1,
-    agent : 'Pranav',
-    customer : 'Pratham',
-    tenure : 3
-}, {
-    id : 2,
-    agent : 'Abhishek',
-    customer : 'Abhay',
-    tenure : 5
-}, {
-    id : 3,
-    agent : 'Manoj',
-    customer : 'Vinay',
-    tenure : 2
-}, {
-    id : 4,
-    agent : 'Shashi',
-    customer : 'Avijit',
-    tenure : 1
-}, {
-    id : 5,
-    agent : 'Puneet',
-    customer : 'Gagan',
-    tenure : 3
-}];
-
-let idCounter = 6;
+let db;
+async function connectDB() {
+    db = await connectToDatabase();
+}
+connectDB();
 
 const salesResponder = new cote.Responder({name : 'sales-responder', key : 'sales'});
 
-salesResponder.on('list', req => Promise.resolve(insurances));
+salesResponder.on('list', async (req) => {
+    const collection = await db.collection("sales");
+    let results = await collection.find().toArray();
+    return results;
+});
 
-salesResponder.on('update', req => {
+salesResponder.on('update', async (req) => {
     const insurance = {
-        id : idCounter++,
         ...req.info    
     };
-    insurances.push(insurance);
-    return Promise.resolve(insurance);
-})
+    const collection = await db.collection("sales");
+    let result = await collection.insertOne(insurance);
+    return result;
+
+});
