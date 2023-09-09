@@ -55,23 +55,33 @@ Each event emmitter can make different kind of requests to the same listener bas
     ![plot](./assets/screenshots/receipt_service_running.png)
     ![plot](./assets/screenshots/finance_service_running.png)
 
+
+
 **Get requests to insurance, customers, receipts and finance service:**
     ![plot](./assets/screenshots/api_get_insurances.png)
     ![plot](./assets/screenshots/api_get_customers.png)
     ![plot](./assets/screenshots/api_get_receipts.png)
     ![plot](./assets/screenshots/api_get_finance_team.png)
 
+
+
 **Get request events on api-gateway console:**
     ![plot](./assets/screenshots/api_gateway_events_logging.png)
+
+
 
 **Add a new finance team member with finance-service and logs on api-gateway console:**
     ![plot](./assets/screenshots/api_add_finance_member.png)
     ![plot](./assets/screenshots/api_gateway_add_finance_member_event_logging.png)
 
+
+
 **Add a new insurance and event logging on api-gateway and alerts generated in finance-service:**
     ![plot](./assets/screenshots/api_add_insurance.png)
     ![plot](./assets/screenshots/api_gateway_add_insurance_event_logging.png)
     ![plot](./assets/screenshots/finance_service_subscribed_event_logging.png)
+
+
 
 **Final response from insurance, customer and receipts service:**
     ![plot](./assets/screenshots/final_api_get_insurances.png)
