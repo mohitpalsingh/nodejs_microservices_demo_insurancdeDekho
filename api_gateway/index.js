@@ -9,8 +9,8 @@ app.use(bodyParser.json());
 
 const salesFetchRequester = new cote.Requester({name : 'sales-fetch-requester', key : 'sales_fetch'});
 const salesUpdateRequester = new cote.Requester({name: 'sales-update-requester', key : 'sales_update'})
-const customerRequester = new cote.Requester({name : 'customer-requester', key : 'customer'});
-const recieptRequester = new cote.Requester({name: 'reciept-requester', key : 'reciept'});
+const customerRequester = new cote.Requester({name : 'customer-requester', key : 'customer_update'});
+const recieptRequester = new cote.Requester({name: 'reciept-requester', key : 'reciept_generate_and_fetch'});
 
 app.get('/insurances', async (req, res) => {
     const insurances = await salesFetchRequester.send({type : 'list'});
@@ -21,11 +21,13 @@ app.get('/insurances', async (req, res) => {
 app.post('/addInsurance', async (req, res) => {
     const insurance = await salesUpdateRequester.send({type : 'update', info : req.body});
     console.log("added insurance");
-    // const customer = await customerRequester({type : 'update', info : req.body});
 
-    // const reciept = await recieptRequester({type : 'generate', info : req.body});
+    const customer = await customerRequester.send({type : 'update', info : req.body});
+    console.log("added customer in customer-db");
+
+    // const reciept = await recieptRequester.send({type : 'generate', info : req.body});
     
-    res.send(insurance);
+    res.send(customer);
 })
 
 app.listen(3000, () => {
