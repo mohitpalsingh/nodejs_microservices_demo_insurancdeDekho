@@ -1,11 +1,10 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cote = require('cote');
 const axios = require('axios');
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 const salesRequester = new cote.Requester({name: 'sales-requester', key : 'sales'})
 const customerRequester = new cote.Requester({name : 'customer-requester', key : 'customer'});
