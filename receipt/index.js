@@ -21,6 +21,8 @@ let idCounter = 6;
 
 const receiptResponder = new cote.Responder({name : 'receipt-responder', key : 'receipt'});
 
+const financePublisher = new cote.Publisher({name : 'finance-publisher', key : 'finance'});
+
 receiptResponder.on('list', req => {
     return Promise.resolve(receipts);
 })
@@ -32,5 +34,8 @@ receiptResponder.on('generate', req => {
         receipt : receiptMsg
     }
     receipts.push(receipt);
+
+    financePublisher.publish('customer_added', req);
+
     return Promise.resolve(receipt);
 })
