@@ -14,17 +14,18 @@ const recieptRequester = new cote.Requester({name: 'reciept-requester', key : 'r
 
 app.get('/insurances', async (req, res) => {
     const insurances = await salesFetchRequester.send({type : 'list'});
-    res.sendStatus(200).send(insurances);
+    console.log("get insurances");
+    res.send(insurances);
 })
 
 app.post('/addInsurance', async (req, res) => {
-    const insurance = await salesUpdateRequester({type : 'update', info : req.body});
+    const insurance = await salesUpdateRequester.send({type : 'update', info : req.body});
+    console.log("added insurance");
+    // const customer = await customerRequester({type : 'update', info : req.body});
 
-    const customer = await customerRequester({type : 'update', info : req.body});
-
-    const reciept = await recieptRequester({type : 'generate', info : req.body});
-
-    res.sendStatus(200).send(reciept);
+    // const reciept = await recieptRequester({type : 'generate', info : req.body});
+    
+    res.send(insurance);
 })
 
 app.listen(3000, () => {
