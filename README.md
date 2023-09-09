@@ -1,4 +1,4 @@
-# liveInventory
+# NodeJs microservices demo - InsuranceDekho
 ![MongoDB](https://img.shields.io/badge/db-mongoDB-brightgreen)
 ![ExpressJs](https://img.shields.io/badge/framework-expressJS-brightgreen)
 ![NodeJs](https://img.shields.io/badge/backend-nodejs-brightgreen)
